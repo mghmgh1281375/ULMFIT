@@ -32,8 +32,16 @@ data_clas = (TextList.from_csv('resources', 'fa.train.csv', cols='text', vocab=d
              .split_subsets(train_size=0.7, valid_size=0.3)
              .label_from_df(cols='data')
              .databunch(bs=16))
-
 # data_clas.show_batch()
+
+
+# # TODO: Load lm and fine-tune with classification data
+# model = get_language_model(arch, len(data.vocab.itos), config=config, drop_mult=drop_mult)
+# meta = _model_meta[arch]
+# learn = LanguageLearner(data, model, split_func=meta['split_lm'], **learn_kwargs)
+
+
+
 model = get_text_classifier(AWD_LSTM, len(data_lm.vocab.itos), data_clas.c, bptt=70, max_len=70*20,
                             config=None, drop_mult=1., lin_ftrs=None, ps=None)
 meta = _model_meta[AWD_LSTM]
